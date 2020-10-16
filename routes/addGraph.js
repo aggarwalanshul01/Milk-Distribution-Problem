@@ -25,6 +25,16 @@ route.post('/', async(req, res) => {
 
     res.send(d);
 })
+route.get('/getAll', async(req, res) => {
+
+    let graph = await datas.findAll({
+        where: {
+            userId: req.session.userId
+        }
+    })
+
+    res.send(graph);
+})
 module.exports = {
     route
 }

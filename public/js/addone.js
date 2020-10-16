@@ -43,7 +43,7 @@ $(() => {
             }
 
             if (i == arr.length) {
-                distDiv.append(`<button id="distOfCust" class="btn btn-outline-secondary">ADD THEM ALL</button>`)
+                distDiv.append(`<button id="distOfCust" class="btn btn-outline-secondary"><a href="../loggedin.html">ADD THEM ALL</a></button>`)
             }
             addDistances();
         });
@@ -63,7 +63,7 @@ $(() => {
                 nodes: arr,
                 edges: distances
             }, (data) => {
-                console.log(data);
+                console.log("****" + data);
             })
 
         })
