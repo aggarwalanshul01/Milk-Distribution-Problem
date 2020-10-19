@@ -15,8 +15,9 @@ $(() => {
     function addSingleManData() {
         $.get('/add/getAll', (data) => {
             let r = 1;
+            console.log("**" + data);
             for (let i of data) {
-
+                console.log(i.id);
                 if (r == 1) {
                     divAdd.prepend(`
                 <button type="button" title="THIS IS YOUR PREVIOUS GRAPH" class="graph btn btn-outline-primary" value="${i.id}" style="padding: 20px;margin-left: 440px; width: 600px; display: block;">THIS IS YOUR ${r}th GRAPH </button>
@@ -37,7 +38,12 @@ $(() => {
     function ifClicked() {
         let graphh = $('.graph');
         graphh.click((event) => {
-            $.post('/open', { id: graphh.val() }, (data) => {
+            //console.log(event.currentTarget.attributes[3].nodeValue);
+            //abcd = [event.currentTarget.attributes[3]]
+            //console.log(abcd);
+            //console.log(graphh.val());
+            $.post('/open', { id: event.currentTarget.attributes[3].nodeValue }, (data) => {
+                console.log(data);
                 window.location.replace("/components/openGraph.html");
             });
 

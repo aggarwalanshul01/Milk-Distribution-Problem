@@ -154,14 +154,15 @@ class Graph {
         return dist;
     }
 }
-let g = new Graph();
-g.addNode('A')
-g.addNode('B')
-g.addNode('C')
-g.addEdge('A', 'B', 5)
-g.addEdge('B', 'C', 2);
-g.addEdge('A', 'C', 1);
-g.display();
-console.log(g.floydWarshallAlgorithm());
-//g.primsMST().display();
-module.exports = Graph;
+// let g = new Graph();
+// g.addNode('A')
+// g.addNode('B')
+// g.addNode('C')
+// g.addEdge('A', 'B', 5)
+// g.addEdge('B', 'C', 2);
+// g.addEdge('A', 'C', 1);
+// g.display();
+// console.log(g.floydWarshallAlgorithm());
+// let asd = g.primsMST();
+// asd.display();
+module.exports = { Graph };

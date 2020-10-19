@@ -26,8 +26,8 @@ $(() => {
                     'target-arrow-color': '#369',
                     'target-arrow-shape': 'triangle',
                     'label': 'data(label)',
-                    'font-size': '14px',
-                    'color': '#777'
+                    'font-size': '25px',
+                    'color': 'black'
                 }
             }
         ],
@@ -40,8 +40,8 @@ $(() => {
                 'target-arrow-color': '#369',
                 'target-arrow-shape': 'triangle',
                 'label': 'data(label)',
-                'font-size': '14px',
-                'color': '#777'
+                'font-size': '25px',
+                'color': 'black'
             })
             .selector('node')
             .css({
@@ -67,35 +67,163 @@ $(() => {
         }
 
     });
-
+    let arr = [];
+    let no, ed;
     $.get('/open', (data) => {
-        let no = data[0].nodes.split(" ");
-        let ed = data[0].edges.split(" ");
+        console.log(data[0].id);
+        no = data[0].nodes.split(" ");
+        ed = data[0].edges.split(" ");
         console.log(no);
         console.log(ed);
+
+
+        let p = 1;
+        for (let i = 0; i < no.length - 1; i++) {
+
+            arr.push({ group: 'nodes', data: { id: `${no[i]}` }, position: { x: 350 - 300 * Math.random(), y: 280 - 240 * Math.random() } });
+
+        }
+        console.log(arr);
+        let y = 0;
+        for (let i = 0; i < no.length - 1; i++) {
+            for (let j = i + 1; j < no.length - 1; j++) {
+                arr.push({ group: 'edges', data: { id: `${no[i]}${no[j]}`, source: `${no[i]}`, target: `${no[j]}`, label: `${ed[y]}` } })
+                y++;
+            }
+        }
+
+        console.log(arr);
+        cy.add(arr);
+        datastr();
     })
-    cy.add([
-        { group: 'nodes', data: { id: 'n1', name: 'n11' }, position: { x: 50, y: 200 } },
-        { group: 'nodes', data: { id: 'n2' }, position: { x: 131, y: 226 } },
-        { group: 'nodes', data: { id: 'n3' }, position: { x: 128, y: 143 } },
-        { group: 'nodes', data: { id: 'n4' }, position: { x: 249, y: 142 } },
-        { group: 'nodes', data: { id: 'n5' }, position: { x: 191, y: 62 } },
-        { group: 'nodes', data: { id: 'n6' }, position: { x: 66, y: 83 } },
-        { group: 'edges', data: { id: 'e0', source: 'n1', target: 'n2', label: 7 } },
-        { group: 'edges', data: { id: 'e1', source: 'n2', target: 'n3', label: 10 } },
-        { group: 'edges', data: { id: 'e2', source: 'n1', target: 'n6', label: 14 } },
-        { group: 'edges', data: { id: 'e3', source: 'n1', target: 'n3', label: 9 } },
-        { group: 'edges', data: { id: 'e4', source: 'n2', target: 'n4', label: 15 } },
-        { group: 'edges', data: { id: 'e5', source: 'n3', target: 'n4', label: 11 } },
-        { group: 'edges', data: { id: 'e6', source: 'n3', target: 'n6', label: 2 } },
-        { group: 'edges', data: { id: 'e7', source: 'n6', target: 'n5', label: 9 } },
-        { group: 'edges', data: { id: 'e8', source: 'n5', target: 'n4', label: 6 } },
-    ]);
+
     cy.on('click', 'node', function(evt) {
         var node = evt.target;
-        console.clear()
+
         console.log(node.position());
     });
+    let singleBut = $('#single');
+    let factoryBut = $('#factory');
+    let singleDiv = $('#singleDiv');
+    let factoryDiv = $('#factoryDiv');
+    let spanSingle = $('#spanSingle');
+    let butDone = $('#butDone');
+    let spanStart = $('#spanStart');
+    let StartingInp = $('#StartingInp');
+    let butStart = $('#butStart');
+    let doneWork = $('#doneWork');
+    singleDiv.hide();
+    factoryDiv.hide();
+    spanSingle.hide();
+    butDone.hide();
+    spanStart.hide();
+    butStart.hide();
+    StartingInp.hide();
+    doneWork.hide();
+
+    async function datastr() {
+
+        let edd = [];
+
+        for (let i = 0; i < ed.length - 1; i++) {
+            edd.push(parseInt(ed[i]));
+        }
+        console.log(edd);
+        await $.post('/ds', { nodes: no, edges: edd }, (data) => {
+            console.log(data);
+            singleman(data);
+            factoryman(data);
+        })
+
+    }
+
+    function singleman(data) {
+        singleBut.click(() => {
+            singleBut.hide();
+            factoryBut.hide();
+            singleDiv.show();
+            spanStart.show();
+            butStart.show();
+            StartingInp.show();
+            //cy.$(`#ab`).select();
+            butStart.click(() => {
+                cy.$('#' + StartingInp.val()).select();
+
+                spanSingle.show();
+                butDone.show();
+                let map = {};
+                map[StartingInp.val()] = 1;
+                let floyd = data.fw;
+                console.log(floyd);
+                let curr = StartingInp.val()
+                butDone.click(() => {
+                    if (Object.keys(map).length == Object.keys(floyd[curr]).length) {
+                        butDone.hide();
+                        spanSingle.hide();
+                        spanStart.hide();
+                        butStart.hide();
+                        doneWork.show();
+                        StartingInp.hide();
+                    } else {
+                        let newcurr = "";
+                        let min = Number.MAX_VALUE;
+                        console.log(floyd[curr]);
+                        let v = floyd[curr];
+                        for (let k in floyd[curr]) {
+                            console.log(k);
+                            if (!map[k] && min > v[k]) {
+                                newcurr = k;
+                                min = v[k];
+                            }
+                        }
+                        map[newcurr] = 1;
+                        console.log("**" + `#${curr}${newcurr}`);
+                        cy.$(`#${curr}${newcurr}`).select();
+                        cy.$(`#${newcurr}`).select();
+                        curr = newcurr;
+                    }
+                })
+
+                // cy.$('#a').select();
+                // cy.$('#edg1').select();
+            })
+
+
+
+
+
+        })
+    }
+
+    function factoryman(data) {
+        factoryBut.click(() => {
+            singleBut.hide();
+            factoryBut.hide();
+            factoryDiv.show();
+            var collection = cy.elements();
+            console.log(collection);
+            cy.remove(collection);
+            let arr2 = [];
+
+        })
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     var dijkstra = cy.elements().dijkstra('#n1', function(edge) {

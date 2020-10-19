@@ -19,11 +19,13 @@ const route2 = require('./routes/signup').route;
 const route3 = require('./routes/profile').route;
 const route4 = require('./routes/addGraph').route;
 const route5 = require('./routes/openGraph').route;
+const route6 = require('./routes/dataStruct').route;
 app.use('/login', route1);
 app.use('/signup', route2);
 app.use('/profile', route3);
 app.use('/add', route4);
 app.use('/open', route5);
+app.use('/ds', route6);
 app.use('/', express.static(__dirname + '/public'));
 
 

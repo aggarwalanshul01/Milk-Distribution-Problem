@@ -10,7 +10,12 @@ route.post('/', async(req, res) => {
     let n = "",
         e = "";
     for (let i = 0; i < req.body.nodes.length; i++) {
-        n = n + req.body.nodes[i] + " ";
+        let y = req.body.nodes[i].split(" ");
+        let o = "";
+        for (let q in y) {
+            o = o + y[q] + "_"
+        }
+        n = n + (o.slice(0, o.length - 1)) + " ";
     }
     for (let i = 0; i < req.body.edges.length; i++) {
         e = e + req.body.edges[i] + " ";
