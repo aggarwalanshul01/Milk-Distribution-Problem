@@ -21,9 +21,10 @@ route.post('/', async(req, res) => {
         g.display();
         let floyd = await g.floydWarshallAlgorithm();
         let mst = await g.primsMST();
+        let pat = await g.floydWarshallPath();
         console.log(floyd);
         mst.display();
-        res.send({ fw: floyd, prism: mst });
+        res.send({ fw: floyd, prism: mst, path: pat });
     }
 
 })

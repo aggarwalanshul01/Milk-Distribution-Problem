@@ -109,6 +109,7 @@ $(() => {
     let spanSingle = $('#spanSingle');
     let butDone = $('#butDone');
     let spanStart = $('#spanStart');
+    let spanPath = $('#spanPath');
     let StartingInp = $('#StartingInp');
     let butStart = $('#butStart');
     let doneWork = $('#doneWork');
@@ -120,7 +121,8 @@ $(() => {
     butStart.hide();
     StartingInp.hide();
     doneWork.hide();
-
+    spanPath.hide();
+    $('#dWork').hide();
     async function datastr() {
 
         let edd = [];
@@ -145,6 +147,7 @@ $(() => {
             spanStart.show();
             butStart.show();
             StartingInp.show();
+            spanPath.show();
             //cy.$(`#ab`).select();
             butStart.click(() => {
                 cy.$('#' + StartingInp.val()).select();
@@ -154,7 +157,8 @@ $(() => {
                 let map = {};
                 map[StartingInp.val()] = 1;
                 let floyd = data.fw;
-                console.log(floyd);
+                let path = data.path;
+                // console.log(floyd);
                 let curr = StartingInp.val()
                 butDone.click(() => {
                     if (Object.keys(map).length == Object.keys(floyd[curr]).length) {
@@ -164,13 +168,14 @@ $(() => {
                         butStart.hide();
                         doneWork.show();
                         StartingInp.hide();
+                        spanPath.hide();
                     } else {
                         let newcurr = "";
                         let min = Number.MAX_VALUE;
-                        console.log(floyd[curr]);
+                        // console.log(floyd[curr]);
                         let v = floyd[curr];
                         for (let k in floyd[curr]) {
-                            console.log(k);
+                            //console.log(k);
                             if (!map[k] && min > v[k]) {
                                 newcurr = k;
                                 min = v[k];
@@ -178,7 +183,22 @@ $(() => {
                         }
                         map[newcurr] = 1;
                         console.log("**" + `#${curr}${newcurr}`);
+                        let cu = newcurr;
+                        let p = `${curr} => `;
+                        while (true) {
+                            if (path[curr][newcurr] == newcurr) {
+                                break;
+                            }
+                            cy.$(`#${curr}${path[curr][newcurr]}`).select();
+                            cy.$(`#${path[curr][newcurr]}${curr}`).select();
+                            curr = path[curr][newcurr];
+                            p += `${curr} => `
+                        }
                         cy.$(`#${curr}${newcurr}`).select();
+                        cy.$(`#${newcurr}${curr}`).select();
+                        p += `${newcurr}`;
+                        console.log(p);
+                        spanPath.text(`Path is ${p}`);
                         cy.$(`#${newcurr}`).select();
                         curr = newcurr;
                     }
@@ -201,9 +221,123 @@ $(() => {
             factoryBut.hide();
             factoryDiv.show();
             var collection = cy.elements();
-            console.log(collection);
+            // console.log(collection);
             cy.remove(collection);
             let arr2 = [];
+            let prism = data.prism;
+            // console.log(prism.nodes);
+            for (let po in prism.nodes) {
+                arr2.push({ group: 'nodes', data: { id: `${prism.nodes[po]}` }, position: { x: 350 - 300 * Math.random(), y: 280 - 240 * Math.random() } });
+            }
+            let mm = {};
+            let list = {};
+            // console.log(prism.edges);
+            for (let po in prism.edges) {
+                // console.log(po);
+                for (let io = 0; io < prism.edges[po].length; io++) {
+                    // console.log(io);
+                    //console.log(prism.edges[po][io].node);
+                    if (!mm[`${po}${prism.edges[po][io].node}`] && !mm[`${prism.edges[po][io].node}${po}`]) {
+                        mm[`${po}${prism.edges[po][io].node}`] = 1;
+                        if (!list[`${po}`]) {
+                            list[`${po}`] = [];
+                            list[`${po}`].push(prism.edges[po][io].node);
+                        } else {
+                            list[`${po}`].push(prism.edges[po][io].node);
+                        }
+                        if (!list[`${prism.edges[po][io].node}`]) {
+                            list[`${prism.edges[po][io].node}`] = [];
+                            list[`${prism.edges[po][io].node}`].push(`${po}`);
+                        } else {
+                            list[`${prism.edges[po][io].node}`].push(po);
+                        }
+                        list[`${prism.edges[po][io].node}`] = po;
+                        arr2.push({ group: 'edges', data: { id: `${po}${prism.edges[po][io].node}`, source: `${po}`, target: `${prism.edges[po][io].node}`, label: `${prism.edges[po][io].weight}` } })
+                    }
+                }
+            }
+            StartingInp.show();
+            spanStart.show();
+            butStart.show();
+            cy.add(arr2);
+            console.log(list);
+            butStart.click(async() => {
+                cy.$(`#${StartingInp.val()}`).select();
+                // cy.$(`#${newcurr}${curr}`).select();
+                let t = {};
+                let arrr = [];
+                t[StartingInp.val()] = 1;
+                arrr.push(StartingInp.val());
+                //console.log(StartingInp.val());
+                //console.log(arrr);
+                let u = 0;
+                //console.log(Object.keys(t).length);
+                //console.log(no);
+                let aa = [];
+                aa.push(`#` + StartingInp.val());
+                while (Object.keys(t).length < no.length - 1) {
+
+                    let r = arrr[u];
+                    u++;
+                    console.log(r);
+                    console.log(typeof(list[r]));
+                    if (typeof(list[r]) == 'string') {
+                        arrr.push(list[r]);
+                        t[list[r]] = 1;
+                        // let xc = Date.now() + 1000;
+                        // while (Date.now() < xc) {};
+                        // cy.$(`#${r}${list[r]}`).select();
+                        // cy.$(`#${list[r]}${r}`).select();
+                        // cy.$(`#${list[r]}`).select();
+                        aa.push(`#${r}${list[r]}`);
+                        aa.push(`#${list[r]}${r}`);
+                        aa.push(`#${list[r]}`);
+                    } else {
+                        for (let q = 0; q < list[r].length; q++) {
+                            if (!t[list[r][q]]) {
+                                arrr.push(list[r][q]);
+
+                                console.log(arrr);
+                                t[list[r][q]] = 1;
+                                // let xc = Date.now() + 1000;
+                                // while (Date.now() < xc) {};
+                                // cy.$(`#${r}${list[r][q]}`).select();
+                                // cy.$(`#${list[r][q]}${r}`).select();
+                                // cy.$(`#${list[r][q]}`).select();
+                                aa.push(`#${r}${list[r][q]}`)
+                                aa.push(`#${list[r][q]}${r}`)
+                                aa.push(`#${list[r][q]}`)
+                            }
+                        }
+                    }
+                    //console.log(arrr);
+                }
+                //console.log(t);
+                console.log(aa);
+                u = 0;
+                callLast(aa);
+            })
+
+            function pro(lo) {
+                return new Promise((resolve, reject) => {
+                    setTimeout(() => {
+                        cy.$(`${lo}`).select();
+                        resolve();
+                    }, 500)
+
+                })
+            }
+            async function callLast(aa) {
+                for (let iop = 0; iop < aa.length; iop++) {
+                    console.log(aa[iop]);
+                    await pro(aa[iop]);
+                }
+                doneWork.show()
+                $('#dWork').show();
+            }
+
+
+            //console.log(arr2);
 
         })
     }
