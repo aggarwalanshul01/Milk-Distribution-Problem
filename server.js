@@ -28,11 +28,12 @@ app.use('/open', route5);
 app.use('/ds', route6);
 app.use('/', express.static(__dirname + '/public'));
 
+let port = process.env.PORT || 4544;
 
 
 db.sync()
     .then(() => {
-        app.listen(4544, () => {
+        app.listen(port, () => {
             console.log('server started at http://localhost:4544');
         })
     }).catch((err) => {
