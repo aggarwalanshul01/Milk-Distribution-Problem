@@ -20,7 +20,7 @@ $(() => {
                 console.log(i.id);
                 if (r == 1) {
                     divAdd.prepend(`
-                <button type="button" title="THIS IS YOUR PREVIOUS GRAPH" class="graph btn btn-outline-primary" value="${i.id}" style="padding: 20px;margin-left: 440px; width: 600px; display: block;">THIS IS YOUR ${r}th GRAPH </button>
+                <button type="button" title="THIS IS YOUR PREVIOUS GRAPH" class="graph btn btn-outline-primary" value="${i.id}" style="padding: 20px;margin-left: 340px; width: 600px; display: block;">THIS IS YOUR ${r}th GRAPH </button>
             
             `);
                 } else {
