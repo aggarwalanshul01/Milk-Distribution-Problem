@@ -5,8 +5,10 @@ $(() => {
         console.log(data);
         console.log(data.username);
         navbar.append(`
-        <form class="form-inline my-2 my-lg-0" method="GET" action="/profile" style="margin-right: 0px; margin-right: 390px">
-            <button type="submit" class="btn btn-outline-warning form-inline my-2 my-lg-0">${data.username}</button>
+        <div style="margin-left: 390px; margin-right: 10px;">
+            <form class="form-inline my-2 my-lg-0" method="GET" action="/profile">
+                <button type="submit" class="btn btn-outline-warning form-inline my-2 my-lg-0">${data.username}</button>
+        </div>       
         `)
         addSingleManData();
     })
