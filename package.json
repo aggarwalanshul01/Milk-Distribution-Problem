@@ -4,7 +4,6 @@
     "description": "",
     "main": "server.js",
     "scripts": {
-
         "start": "node server.js"
     },
     "author": "",
@@ -13,6 +12,8 @@
         "cytoscape": "^3.16.2",
         "express": "^4.17.1",
         "express-session": "^1.17.1",
+        "pg": "^8.4.2",
+        "pg-hstore": "^2.3.3",
         "sequelize": "^6.3.5",
         "socket.io": "^2.3.0",
         "sqlite3": "^5.0.0"
