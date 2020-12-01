@@ -25,7 +25,7 @@ app.use('/signup', route2);
 app.use('/profile', route3);
 app.use('/add', route4);
 app.use('/open', route5);
-app.use('/ds', route6);
+app.use('/dss', route6);
 app.use('/', express.static(__dirname + '/public'));
 
 let port = process.env.PORT || 4544;

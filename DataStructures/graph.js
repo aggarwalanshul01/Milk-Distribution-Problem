@@ -42,7 +42,18 @@ class Graph {
     primsMST() {
         // Initialize graph that'll contain the MST
         const MST = new Graph();
+        console.log(this.nodes);
         if (this.nodes.length === 0) {
+            return MST;
+        }
+        if (this.nodes.length === 1) {
+            MST.addNode(this.nodes[0]);
+            return MST;
+        }
+        if (this.nodes.length === 2) {
+            MST.addNode(this.nodes[0]);
+            MST.addNode(this.nodes[1]);
+            MST.addEdge(this.nodes[0], this.nodes[1], this.edges[0]);
             return MST;
         }
 
@@ -209,13 +220,12 @@ class Graph {
 let g = new Graph();
 g.addNode('A')
 g.addNode('B')
-g.addNode('C')
+
 g.addEdge('A', 'B', 5)
-g.addEdge('B', 'C', 2);
-g.addEdge('A', 'C', 1);
+
 g.display();
-console.log(g.floydWarshallAlgorithm());
-console.log(g.floydWarshallPath());
-// let asd = g.primsMST();
-// asd.display();
+//console.log(g.floydWarshallAlgorithm());
+//console.log(g.floydWarshallPath());
+let asd = g.primsMST();
+asd.display();
 module.exports = { Graph };

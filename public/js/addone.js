@@ -6,7 +6,7 @@ $(() => {
         let custDiv = $('#custDiv');
         for (let i = 0; i < (a); i++) {
             //console.log("***");
-            custDiv.append(`<div class="input-group mb-3" style="width:400px; text-align: center; align-items: center;margin-left:500px ;border: black;">
+            custDiv.append(`<div class="input-group mb-3" style="width:400px; text-align: center; align-items: center;margin-left:700px ;border: black;">
             <div class="input-group-prepend" style="border: black;">
               <span class="input-group-text" id="basic-addon3" >NAME OF ${(i+1)}th customer</span>
             </div>
@@ -33,7 +33,7 @@ $(() => {
             for (i = 0; i < arr.length; i++) {
                 for (let j = i + 1; j < arr.length; j++) {
 
-                    distDiv.append(`<div class="input-group mb-3" style="width:800px; text-align: center; align-items: center;margin-left:250px ;border: black;">
+                    distDiv.append(`<div class="input-group mb-3" style="width:630px; text-align: center; align-items: center;margin-left:600px ;border: black;">
                 <div class="input-group-prepend" style="border: black;">
                   <span class="input-group-text" id="basic-addon3" >Distance between [<b> ${ arr[i] } </b>] to [<b> ${arr[j]} </b>] </span>
                 </div>

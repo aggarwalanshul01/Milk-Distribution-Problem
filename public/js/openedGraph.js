@@ -73,7 +73,7 @@ $(() => {
         console.log(data[0].id);
         no = data[0].nodes.split(" ");
         ed = data[0].edges.split(" ");
-        console.log(no);
+        console.log(no + "***");
         console.log(ed);
 
 
@@ -83,7 +83,7 @@ $(() => {
             arr.push({ group: 'nodes', data: { id: `${no[i]}` }, position: { x: 350 - 300 * Math.random(), y: 280 - 240 * Math.random() } });
 
         }
-        console.log(arr);
+        console.log(arr + " ))))))");
         let y = 0;
         for (let i = 0; i < no.length - 1; i++) {
             for (let j = i + 1; j < no.length - 1; j++) {
@@ -93,6 +93,7 @@ $(() => {
         }
 
         console.log(arr);
+        console.log("******");
         cy.add(arr);
         datastr();
     })
@@ -126,13 +127,13 @@ $(() => {
     async function datastr() {
 
         let edd = [];
-
+        console.log(no);
         for (let i = 0; i < ed.length - 1; i++) {
             edd.push(parseInt(ed[i]));
         }
-        console.log(edd);
-        await $.post('/ds', { nodes: no, edges: edd }, (data) => {
-            console.log(data);
+        console.log(edd + "*()");
+        await $.post('/dss', { nodes: no, edges: edd }, (data) => {
+            console.log(data + "(((((((((((((((((((((((((");
             singleman(data);
             factoryman(data);
         })
@@ -225,30 +226,48 @@ $(() => {
             cy.remove(collection);
             let arr2 = [];
             let prism = data.prism;
-            // console.log(prism.nodes);
+            //console.log(prism.nodes + "=nodes");
             for (let po in prism.nodes) {
                 arr2.push({ group: 'nodes', data: { id: `${prism.nodes[po]}` }, position: { x: 350 - 300 * Math.random(), y: 280 - 240 * Math.random() } });
             }
             let mm = {};
             let list = {};
-            // console.log(prism.edges);
+            //console.log(prism.edges + "=edges");
             for (let po in prism.edges) {
-                // console.log(po);
+                //console.log(po + " =po");
+                ///console.log(prism.edges[po] + "*********");
                 for (let io = 0; io < prism.edges[po].length; io++) {
-                    // console.log(io);
-                    //console.log(prism.edges[po][io].node);
+                    //console.log(io + "io");
+                    //console.log(prism.edges[po][io].node + "***");
+                    //console.log(list + "======list======");
                     if (!mm[`${po}${prism.edges[po][io].node}`] && !mm[`${prism.edges[po][io].node}${po}`]) {
+
                         mm[`${po}${prism.edges[po][io].node}`] = 1;
+                        //console.log(list[`${po}`] + "(())");
                         if (!list[`${po}`]) {
-                            list[`${po}`] = [];
-                            list[`${po}`].push(prism.edges[po][io].node);
+                            let yop = [];
+                            yop.push(prism.edges[po][io].node);
+                            list[`${po}`] = yop;
+                            //console.log(list[`${po}`] + "))");
                         } else {
-                            list[`${po}`].push(prism.edges[po][io].node);
+                            //console.log("**********");
+
+                            if (typeof(list[`${po}`]) == 'string') {
+                                let yop = [list[`${po}`]];
+                                yop.push(prism.edges[po][io].node);
+                                list[`${po}`] = yop;
+                            } else {
+                                list[`${po}`].push(prism.edges[po][io].node);
+                            }
                         }
                         if (!list[`${prism.edges[po][io].node}`]) {
                             list[`${prism.edges[po][io].node}`] = [];
                             list[`${prism.edges[po][io].node}`].push(`${po}`);
                         } else {
+                            console.log("************************************");
+
+
+
                             list[`${prism.edges[po][io].node}`].push(po);
                         }
                         list[`${prism.edges[po][io].node}`] = po;
@@ -256,6 +275,7 @@ $(() => {
                     }
                 }
             }
+            console.log("arr2 " + arr2);
             StartingInp.show();
             spanStart.show();
             butStart.show();

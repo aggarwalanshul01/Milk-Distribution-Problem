@@ -5,7 +5,7 @@ $(() => {
         console.log(data);
         console.log(data.username);
         navbar.append(`
-        <div style="margin-left: 390px; margin-right: 10px;">
+        <div style="margin-left: 630px; margin-right: 10px;">
             <form class="form-inline my-2 my-lg-0" method="GET" action="/profile">
                 <button type="submit" class="btn btn-outline-warning form-inline my-2 my-lg-0">${data.username}</button>
         </div>       
@@ -22,12 +22,12 @@ $(() => {
                 console.log(i.id);
                 if (r == 1) {
                     divAdd.prepend(`
-                <button type="button" title="THIS IS YOUR PREVIOUS GRAPH" class="graph btn btn-outline-primary" value="${i.id}" style="padding: 20px;margin-left: 340px; width: 600px; display: block;">THIS IS YOUR ${r}th GRAPH </button>
+                <button type="button" title="THIS IS YOUR PREVIOUS GRAPH" class="graph btn btn-outline-primary" value="${i.id}" style="padding: 20px;margin-left: 590px; width: 600px; display: block;">THIS IS YOUR ${r}th GRAPH </button>
             
             `);
                 } else {
                     divAdd.prepend(`
-                <button type="button" title="THIS IS YOUR PREVIOUS GRAPH" class="graph btn btn-outline-primary" value="${i.id}" style="padding: 20px;margin-left: 340px; width: 600px; display: block;">THIS IS YOUR ${r}th GRAPH </button>
+                <button type="button" title="THIS IS YOUR PREVIOUS GRAPH" class="graph btn btn-outline-primary" value="${i.id}" style="padding: 20px;margin-left: 590px; width: 600px; display: block;">THIS IS YOUR ${r}th GRAPH </button>
             
             <br>`);
                 }
